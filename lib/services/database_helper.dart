@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, empty_catches
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';

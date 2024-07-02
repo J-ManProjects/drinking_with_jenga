@@ -9,10 +9,10 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/loading',
     routes: {
-      '/home': (context) => Home(),
-      '/loading': (context) => Loading(),
-      '/versions': (context) => Versions(),
-      '/add_and_edit': (context) => AddAndEdit(),
+      '/home': (context) => const Home(),
+      '/loading': (context) => const Loading(),
+      '/versions': (context) => const Versions(),
+      '/add_and_edit': (context) => const AddAndEdit(),
     },
   ));
 }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 // This page allows for adding and editing the parameters of the blocks.
 class AddAndEdit extends StatefulWidget {
+  const AddAndEdit({super.key});
+
   @override
   _AddAndEditState createState() => _AddAndEditState();
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 
 class Versions extends StatefulWidget {
+  const Versions({super.key});
+
   @override
   _VersionsState createState() => _VersionsState();
 }

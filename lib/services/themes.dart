@@ -172,6 +172,15 @@ class Themes {
     showItemCount = !showItemCount;
   }
 
+  // Returns the appropriate secondary color, depending on isDarkMode.
+  static dynamic getSecondaryColor() {
+    if (isDarkMode) {
+      return _themeDark.colorScheme.secondary;
+    } else {
+      return _themeLight.colorScheme.secondary;
+    }
+  }
+
   // Returns the appropriate heading color for the drawer, depending on isDarkMode.
   static dynamic getHeadingColor() {
     return isDarkMode ? Colors.grey[400] : Colors.grey[800];

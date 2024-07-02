@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 
 // This page loads the saved preferences and the database values.
 class Loading extends StatefulWidget {
+  const Loading({super.key});
+
   @override
   _LoadingState createState() => _LoadingState();
 }

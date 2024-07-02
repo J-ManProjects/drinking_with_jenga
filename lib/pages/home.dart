@@ -10,6 +10,8 @@ import 'dart:math';
 
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -319,7 +321,7 @@ class _HomeState extends State<Home> {
       subtitle: Text(Themes.isDarkMode ? 'Enabled' : 'Disabled'),
       leading: const Icon(Icons.nights_stay_sharp),
       trailing: Switch(
-        activeTrackColor: Themes.getNeutralColor(),
+        activeTrackColor: Themes.getSecondaryColor(),
         inactiveTrackColor: Colors.grey,
         value: Themes.isDarkMode,
         onChanged: (bool value) {
@@ -348,7 +350,7 @@ class _HomeState extends State<Home> {
       subtitle: Text(Themes.showItemCount ? 'Enabled' : 'Disabled'),
       leading: const Icon(Icons.confirmation_number_sharp),
       trailing: Switch(
-        activeTrackColor: Themes.getNeutralColor(),
+        activeTrackColor: Themes.getSecondaryColor(),
         inactiveTrackColor: Colors.grey,
         value: Themes.showItemCount,
         onChanged: (bool value) {
@@ -501,7 +503,7 @@ class _HomeState extends State<Home> {
       searchFocus.unfocus();
       text += ' ==> method 1';
     } else {
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
       text += ' ==> method 2';
     }
     print(text);
@@ -667,7 +669,7 @@ class _HomeState extends State<Home> {
       context: bodyContext,
       builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           content: const Text(
               'Are you sure that you want to replace the current list with the default one?'),
           actions: <Widget>[
