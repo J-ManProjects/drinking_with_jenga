@@ -12,6 +12,7 @@ class Themes {
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
+      scrolledUnderElevation: 0.0,
       titleTextStyle: const TextStyle(
         color: Colors.white,
         fontSize: 20,
@@ -23,6 +24,11 @@ class Themes {
     ),
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: Colors.blue[700],
+    ),
+    dialogTheme: const DialogTheme(
+      shape: ContinuousRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(2.0)),
+      ),
     ),
     dividerTheme: DividerThemeData(
       color: Colors.grey[200],
@@ -81,6 +87,7 @@ class Themes {
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
+      scrolledUnderElevation: 0.0,
       titleTextStyle: const TextStyle(
         color: Colors.white,
         fontSize: 20,
@@ -94,7 +101,12 @@ class Themes {
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: Colors.blue,
     ),
-    dialogBackgroundColor: Colors.grey[800],
+    dialogTheme: DialogTheme(
+      backgroundColor: Colors.grey[800],
+      shape: const ContinuousRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(2.0)),
+      ),
+    ),
     dividerTheme: DividerThemeData(
       color: Colors.grey[700],
     ),
@@ -189,5 +201,4 @@ class Themes {
   static ThemeData getTheme() {
     return isDarkMode ? _themeDark : _themeLight;
   }
-
 }
