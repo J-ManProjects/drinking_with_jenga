@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 // This class organises all theme parameters.
 class Themes {
   static bool isDarkMode = false;
@@ -8,25 +7,59 @@ class Themes {
 
   // Light theme
   static final ThemeData _themeLight = ThemeData.light().copyWith(
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.blue,
-      iconTheme: IconThemeData(
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.blue[700],
+      iconTheme: const IconThemeData(
         color: Colors.white,
       ),
+      titleTextStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      shape: ContinuousRectangleBorder(),
     ),
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: Colors.blue[700],
+    ),
+    dividerTheme: DividerThemeData(
+      color: Colors.grey[200],
+    ),
+    drawerTheme: const DrawerThemeData(
+      shape: ContinuousRectangleBorder(),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 12.0,
+        ),
+      ),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: Colors.blue[700],
       foregroundColor: Colors.white,
       shape: const CircleBorder(),
     ),
-    inputDecorationTheme: const InputDecorationTheme(
+    inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.white,
+      hintStyle: TextStyle(
+        color: Colors.grey[700],
+      ),
+      prefixIconColor: Colors.grey[700],
+      suffixIconColor: Colors.grey[700],
     ),
     iconTheme: const IconThemeData(
       color: Colors.grey,
+    ),
+    listTileTheme: ListTileThemeData(
+      iconColor: Colors.grey[700],
     ),
     scaffoldBackgroundColor: Colors.blueGrey[50],
     snackBarTheme: SnackBarThemeData(
@@ -37,6 +70,7 @@ class Themes {
     ),
     textSelectionTheme: TextSelectionThemeData(
       selectionColor: Colors.blue[700],
+      cursorColor: Colors.blue[700],
     ),
   );
 
@@ -116,40 +150,44 @@ class Themes {
     ),
   );
 
-
   // Toggles dark mode on or off.
-  static void toggleDarkMode()
-  { isDarkMode = !isDarkMode; }
-
+  static void toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+  }
 
   // Toggles item count on or off.
-  static void toggleItemCount()
-  { showItemCount = !showItemCount; }
-
+  static void toggleItemCount() {
+    showItemCount = !showItemCount;
+  }
 
   // Returns the appropriate heading color for the drawer, depending on isDarkMode.
-  static dynamic getHeadingColor()
-  { return isDarkMode ? Colors.grey[400] : Colors.grey[600]; }
+  static dynamic getHeadingColor() {
+    return isDarkMode ? Colors.grey[400] : Colors.grey[800];
+  }
 
+  // Returns the appropriate input form fill color, depending on isDarkMode.
+  static dynamic getFormFillColor() {
+    return isDarkMode ? const Color(0xFF515151) : Colors.white;
+  }
 
   // Returns the appropriate positive color, depending on isDarkMode.
-  static dynamic getPositiveColor()
-  { return isDarkMode ? Colors.green[700] : Colors.green; }
-
+  static dynamic getPositiveColor() {
+    return isDarkMode ? Colors.green[700] : Colors.green;
+  }
 
   // Returns the appropriate neutral color, depending on isDarkMode.
-  static dynamic getNeutralColor()
-  { return isDarkMode ? Colors.blue[700] : Colors.blue; }
-
+  static dynamic getNeutralColor() {
+    return isDarkMode ? Colors.blue[700] : Colors.blue;
+  }
 
   // Returns the appropriate negative color, depending on isDarkMode.
-  static dynamic getNegativeColor()
-  { return isDarkMode ? Colors.red[900] : Colors.red; }
-
+  static dynamic getNegativeColor() {
+    return isDarkMode ? Colors.red[900] : Colors.red;
+  }
 
   // Returns either light or dark theme, depending on isDarkMode.
-  static ThemeData getTheme()
-  { return isDarkMode ? _themeDark : _themeLight; }
-
+  static ThemeData getTheme() {
+    return isDarkMode ? _themeDark : _themeLight;
+  }
 
 }

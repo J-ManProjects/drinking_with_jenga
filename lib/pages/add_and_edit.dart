@@ -92,7 +92,7 @@ class _AddAndEditState extends State<AddAndEdit> {
       textCapitalization: TextCapitalization.sentences,
       onChanged: (String text) => setState(() {}),
       decoration: InputDecoration(
-        fillColor: const Color(0xFF515151),
+        fillColor: Themes.getFormFillColor(),
         filled: true,
         prefixIcon: data?['index'] == -1
         ? null
