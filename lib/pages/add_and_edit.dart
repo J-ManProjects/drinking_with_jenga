@@ -1,6 +1,5 @@
 import 'package:drinking_with_jenga/services/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // This page allows for adding and editing the parameters of the blocks.
 class AddAndEdit extends StatefulWidget {
@@ -59,6 +58,9 @@ class _AddAndEditState extends State<AddAndEdit> {
           _textFormField(labelControl, 'label'),
           _heading('Instructions'),
           _textFormField(instructionsControl, 'instructions'),
+          Container(
+            height: 20,
+          ),
           _buttonBar(context),
         ],
       ),
@@ -82,6 +84,7 @@ class _AddAndEditState extends State<AddAndEdit> {
   // The text form field for either the label or the instructions.
   Widget _textFormField(TextEditingController controller, String section) {
     return TextFormField(
+      textAlignVertical: TextAlignVertical.center,
       controller: controller,
       maxLines: section == 'label' ? 1 : 5,
       minLines: 1,
@@ -89,23 +92,24 @@ class _AddAndEditState extends State<AddAndEdit> {
       textCapitalization: TextCapitalization.sentences,
       onChanged: (String text) => setState(() {}),
       decoration: InputDecoration(
+        fillColor: const Color(0xFF515151),
         filled: true,
         prefixIcon: data?['index'] == -1
-            ? null
-            : IconButton(
-                icon: const Icon(Icons.restore),
-                tooltip: 'Reset $section text',
-                onPressed: () {
-                  setState(() {
-                    controller.text = data?[section];
-                    Future.delayed(const Duration(milliseconds: 100), () {
-                      controller.selection = TextSelection.fromPosition(
-                        TextPosition(offset: controller.text.length),
-                      );
-                    });
-                  });
-                },
-              ),
+        ? null
+        : IconButton(
+            icon: const Icon(Icons.restore),
+            tooltip: 'Reset $section text',
+            onPressed: () {
+              setState(() {
+                controller.text = data?[section];
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  controller.selection = TextSelection.fromPosition(
+                    TextPosition(offset: controller.text.length),
+                  );
+                });
+              });
+            },
+          ),
         suffixIcon: IconButton(
           icon: const Icon(Icons.clear),
           tooltip: 'Clear $section text',
@@ -145,6 +149,11 @@ class _AddAndEditState extends State<AddAndEdit> {
       icon: const Icon(Icons.check),
       style: ElevatedButton.styleFrom(
         backgroundColor: Themes.getPositiveColor(),
+        textStyle: TextStyle(
+          color: labelControl.text.isEmpty || instructionsControl.text.isEmpty
+          ? Colors.grey
+          : Colors.white,
+        ),
       ),
       onPressed: labelControl.text.isEmpty || instructionsControl.text.isEmpty
           ? null
@@ -164,7 +173,7 @@ class _AddAndEditState extends State<AddAndEdit> {
       label: const Text('Reset all'),
       icon: const Icon(Icons.restore),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Themes.getPositiveColor(),
+        backgroundColor: Themes.getNeutralColor(),
       ),
       onPressed: () {
         FocusScope.of(context).unfocus();
@@ -182,7 +191,7 @@ class _AddAndEditState extends State<AddAndEdit> {
       label: const Text('Cancel'),
       icon: const Icon(Icons.cancel),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Themes.getPositiveColor(),
+        backgroundColor: Themes.getNegativeColor(),
       ),
       onPressed: () {
         Navigator.pop(context, null);

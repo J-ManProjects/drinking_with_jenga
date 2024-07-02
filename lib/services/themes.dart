@@ -8,29 +8,111 @@ class Themes {
 
   // Light theme
   static final ThemeData _themeLight = ThemeData.light().copyWith(
-    scaffoldBackgroundColor: Colors.blueGrey[50],
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.blue,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+    ),
+    colorScheme: ColorScheme.fromSwatch().copyWith(
+      secondary: Colors.blue[700],
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.blue[700],
+      foregroundColor: Colors.white,
+      shape: const CircleBorder(),
+    ),
     inputDecorationTheme: const InputDecorationTheme(
       fillColor: Colors.white,
+    ),
+    iconTheme: const IconThemeData(
+      color: Colors.grey,
+    ),
+    scaffoldBackgroundColor: Colors.blueGrey[50],
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Colors.grey[800],
+      contentTextStyle: const TextStyle(
+        color: Colors.white,
+      ),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: Colors.blue[700],
     ),
   );
 
   // Dark theme
   static final ThemeData _themeDark = ThemeData.dark().copyWith(
-    snackBarTheme: SnackBarThemeData(
-      backgroundColor: Colors.grey[900],
-      contentTextStyle: const TextStyle(
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.grey[850],
+      iconTheme: const IconThemeData(
         color: Colors.white,
       ),
+      titleTextStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: Colors.grey[800],
+      shape: const ContinuousRectangleBorder(),
     ),
     colorScheme: ColorScheme.fromSwatch().copyWith(
       secondary: Colors.blue,
     ),
-    textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: Colors.blue,
+    dialogBackgroundColor: Colors.grey[800],
+    dividerTheme: DividerThemeData(
+      color: Colors.grey[700],
+    ),
+    drawerTheme: const DrawerThemeData(
+      backgroundColor: Color(0xFF515151),
+      shape: ContinuousRectangleBorder(),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.white,
+        disabledBackgroundColor: const Color(0xFF515151),
+        iconColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 12.0,
+        ),
+      ),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Colors.blue,
       foregroundColor: Colors.white,
+      shape: CircleBorder(),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: Colors.grey[800],
+      hintStyle: TextStyle(
+        color: Colors.grey[400],
+      ),
+      prefixIconColor: Colors.grey[400],
+      suffixIconColor: Colors.grey[400],
+    ),
+    listTileTheme: const ListTileThemeData(
+      iconColor: Colors.white,
+      tileColor: Color(0xFF515151),
+      textColor: Colors.white,
+    ),
+    scaffoldBackgroundColor: const Color(0xFF3A3A3A),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Colors.grey[800],
+      contentTextStyle: const TextStyle(
+        color: Colors.white,
+      ),
+    ),
+    textSelectionTheme: const TextSelectionThemeData(
+      selectionColor: Colors.blue,
+      cursorColor: Colors.blue,
+    ),
+    textTheme: const TextTheme().apply(
+      bodyColor: Colors.white,
     ),
   );
 

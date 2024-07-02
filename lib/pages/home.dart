@@ -102,13 +102,14 @@ class _HomeState extends State<Home> {
 
   // The complete layout and functionality of the search bar.
   Widget _searchBar(BuildContext context) {
-    return Container(
-      height: 40,
+    return SizedBox(
+      height: 44,
       child: Padding(
         padding: const EdgeInsets.only(right: 8),
         child: TextFormField(
           focusNode: searchFocus,
           controller: searchControl,
+          textAlignVertical: TextAlignVertical.center,
           textCapitalization: TextCapitalization.sentences,
           onChanged: (String text) {
             setState(() {
@@ -252,6 +253,7 @@ class _HomeState extends State<Home> {
 
   // Shows and implements a left drawer menu.
   Widget _drawer(BuildContext context) {
+
     // Configures all elements in the drawer list.
     return Drawer(
       child: ListView(
@@ -317,6 +319,8 @@ class _HomeState extends State<Home> {
       subtitle: Text(Themes.isDarkMode ? 'Enabled' : 'Disabled'),
       leading: const Icon(Icons.nights_stay_sharp),
       trailing: Switch(
+        activeTrackColor: Themes.getNeutralColor(),
+        inactiveTrackColor: Colors.grey,
         value: Themes.isDarkMode,
         onChanged: (bool value) {
           _darkModeToggle(context);
@@ -344,6 +348,8 @@ class _HomeState extends State<Home> {
       subtitle: Text(Themes.showItemCount ? 'Enabled' : 'Disabled'),
       leading: const Icon(Icons.confirmation_number_sharp),
       trailing: Switch(
+        activeTrackColor: Themes.getNeutralColor(),
+        inactiveTrackColor: Colors.grey,
         value: Themes.showItemCount,
         onChanged: (bool value) {
           _itemCountToggle(context);
@@ -367,55 +373,56 @@ class _HomeState extends State<Home> {
   // Returns the implemented "About" ListTile.
   ListTile _aboutTile(BuildContext context) {
     return ListTile(
-      title: Text('About'),
-      leading: Icon(Icons.info_sharp),
+      title: const Text('About'),
+      leading: const Icon(Icons.info_sharp),
       onTap: () {
         Navigator.pop(context);
         hideKeyboard(context: context);
         showDialog(
-            context: bodyContext,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Text(
-                      'Application name:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+          context: bodyContext,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Text(
+                    'Application name:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(appName),
-                    const Divider(height: 24),
-                    const Text(
-                      'Developer:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Text('Jacques de Villiers Malan'),
-                    const Divider(height: 24),
-                    const Text(
-                      'Version:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(appVersion),
-                  ],
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Close'),
                   ),
+                  Text(appName),
+                  const Divider(height: 24),
+                  const Text(
+                    'Developer:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text('Jacques de Villiers Malan'),
+                  const Divider(height: 24),
+                  const Text(
+                    'Version:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(appVersion),
                 ],
-              );
-            });
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
       },
     );
   }
@@ -478,6 +485,7 @@ class _HomeState extends State<Home> {
 
   // Hides the current SnackBar, if it exists.
   void hideSnackBar() {
+
     // ignore: unnecessary_null_comparison
     if (bodyContext != null) {
       ScaffoldMessenger.of(bodyContext).hideCurrentSnackBar();
@@ -521,7 +529,7 @@ class _HomeState extends State<Home> {
         return AlertDialog(
           title: Text(
             searchBlocks[index].label,
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
           ),
           content: Text(searchBlocks[index].instructions),
           actions: <Widget>[
