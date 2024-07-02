@@ -1,5 +1,6 @@
+// ignore_for_file: avoid_print
+
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -8,30 +9,28 @@ import 'dart:io';
 
 // This class holds all information about a single block.
 class Block implements Comparable {
-  int _id;
-  int _version;
-  Database _versionsDatabase;
-  Future<Database> _db;
-  String _tableName;
-  String label;
-  String instructions;
+  late int _id;
+  late int _version;
+  late Database _versionsDatabase;
+  late Future<Database> _db;
+  late String _tableName;
+  late String label;
+  late String instructions;
   static int _highestID = 0;
 
 
   // Constructor.
-  Block({@required String label, @required String instructions, int id = -1, int version = 1}) {
-    this.label = label;
-    this.instructions = instructions;
-    this._version = version;
+  Block({required this.label, required this.instructions, int id = -1, int version = 1}) {
+    _version = version;
     Block.incrementHighestID();
     if (id == -1) {
-      this._id = Block.getHighestID();
+      _id = Block.getHighestID();
     } else {
-      this._id = id;
+      _id = id;
     }
-    this._tableName = 'id_${this._id}_versions';
-    this._db = DatabaseHelper.initDatabase(
-      table: this._tableName,
+    _tableName = 'id_${_id}_versions';
+    _db = DatabaseHelper.initDatabase(
+      table: _tableName,
       primaryKey: 'version',
     );
   }
@@ -60,50 +59,50 @@ class Block implements Comparable {
 
   // Returns the id of the block.
   int getID()
-  { return this._id; }
+  { return _id; }
 
 
   // Returns the current version of the block.
   int getVersion()
-  { return this._version; }
+  { return _version; }
 
 
   // Updates the current version to the next one.
   void updateVersion()
-  { this._version++; }
+  { _version++; }
 
 
   // Returns the table name of the block.
   String getTableName()
-  { return this._tableName; }
+  { return _tableName; }
 
 
   // Returns the history database of the block.
   Database getVersionsDatabase()
-  { return this._versionsDatabase; }
+  { return _versionsDatabase; }
 
 
   // Overriding operators.
   ////////////////////////////////////////////////////////////
   @override
   int compareTo(other)
-  { return this.label.compareTo(other.label); }
+  { return label.compareTo(other.label); }
 
   @override
   bool operator ==(Object other)
-  { return other is Block && this.label == other.label; }
+  { return other is Block && label == other.label; }
 
   @override
   int get hashCode
-  { return this.label.hashCode; }
+  { return label.hashCode; }
 
   @override
   String toString() {
     return 'Block('
-        '\n  id: ${this._id},'
-        '\n  label: "${this.label}",'
-        '\n  instructions: "${this.instructions}",'
-        '\n  version: ${this._version},'
+        '\n  id: $_id,'
+        '\n  label: "$label",'
+        '\n  instructions: "$instructions",'
+        '\n  version: $_version,'
         '\n)';
   }
   ////////////////////////////////////////////////////////////
@@ -115,9 +114,6 @@ class Block implements Comparable {
   { _highestID = id; }
 
   static void incrementHighestID() {
-    if (_highestID == null) {
-      resetHighestID();
-    }
     _highestID++;
   }
 
@@ -135,19 +131,19 @@ class Block implements Comparable {
 
 // This class manages the database for all of the blocks in the list.
 class DatabaseHelper {
-  Future<Database> futureDB;
-  Database db;
-  Future<List<Block>> futureBlocks;
-  List<Block> allBlocks;
+  late Future<Database> futureDB;
+  late Database db;
+  late Future<List<Block>> futureBlocks;
+  late List<Block> allBlocks;
 
 
   // Constructor
   DatabaseHelper() {
-    this.futureDB = initDatabase(
+    futureDB = initDatabase(
       table: 'blocks',
       primaryKey: 'id'
     );
-    this.futureBlocks = initBlocks();
+    futureBlocks = initBlocks();
   }
 
 
@@ -155,14 +151,15 @@ class DatabaseHelper {
   @override
   String toString() {
     String text = 'DatabaseHelper('
-        '\n  futureDB: ${this.futureDB}'
-        '\n  db: ${this.db}'
-        '\n  futureBlocks: ${this.futureBlocks}'
+        '\n  futureDB: $futureDB'
+        '\n  db: $db'
+        '\n  futureBlocks: $futureBlocks'
         '\n  allBlocks: ';
-    if (this.allBlocks == null) {
-      text += '${this.allBlocks}';
+    // ignore: unnecessary_null_comparison
+    if (allBlocks == null) {
+      text += '$allBlocks';
     } else {
-      text += 'Block[${this.allBlocks.length}]';
+      text += 'Block[${allBlocks.length}]';
     }
     text += '\n)';
     return text;
@@ -170,13 +167,13 @@ class DatabaseHelper {
 
 
   // Returns the maximum block id in the database once available.
-  Future<int> getMaxID() async {
+  Future<int?> getMaxID() async {
     return Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(id) FROM blocks'));
   }
 
 
   // Initialises and, once available, returns the database manager.
-  static Future<Database> initDatabase({String table, String primaryKey}) async {
+  static Future<Database> initDatabase({required String table, required String primaryKey}) async {
     String sql = 'CREATE TABLE $table';
     sql += '($primaryKey INTEGER PRIMARY KEY AUTOINCREMENT, label TEXT, instructions TEXT';
     if (primaryKey == 'id') {
@@ -197,8 +194,8 @@ class DatabaseHelper {
 
   // Initialises and, once available, returns the data from the database.
   Future<List<Block>> initBlocks() async {
-    this.db = await futureDB;
-    Block.setHighestID( Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(id) FROM blocks')) );
+    db = await futureDB;
+    Block.setHighestID( Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(id) FROM blocks'))! );
 
     // debugging
     print('(database_helper.dart) highestID = ${Block.getHighestID()}');
@@ -243,7 +240,7 @@ class DatabaseHelper {
   // assigned to the variable allBlocks.
   Future<void> loadAllBlocks() async {
     allBlocks = await futureBlocks;
-    Block.setHighestID( await getMaxID() );
+    Block.setHighestID( (await getMaxID())! );
     for (int i = 0; i < allBlocks.length; i++) {
       await loadBlock(allBlocks[i]);
     }
@@ -313,11 +310,11 @@ class DatabaseHelper {
     }
     await db.execute('DROP TABLE IF EXISTS blocks');
     await db.execute('CREATE TABLE blocks(id INTEGER PRIMARY KEY, label TEXT, instructions TEXT, version INTEGER)');
-    this.futureDB = initDatabase(
+    futureDB = initDatabase(
       table: 'blocks',
       primaryKey: 'id',
     );
-    this.futureBlocks = initBlocks();
+    futureBlocks = initBlocks();
     Block.resetHighestID();
     await loadAllBlocks();
     await recreateAllVersionsTables();
@@ -334,14 +331,14 @@ class DatabaseHelper {
       block.blockMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    Block.setHighestID( await getMaxID() );
+    Block.setHighestID( (await getMaxID())! );
   }
 
 
   // Inserts a new block into the database.
   Future<void> insertVersion(Block block) async {
     await block.getVersionsDatabase().insert(
-      '${block.getTableName()}',
+      block.getTableName(),
       block.versionMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -382,7 +379,7 @@ class DatabaseHelper {
       where: 'id = ?',
       whereArgs: [block.getID()],
     );
-    Block.setHighestID( await getMaxID() );
+    Block.setHighestID( (await getMaxID())! );
   }
 
 
@@ -399,7 +396,7 @@ class DatabaseHelper {
     await block.getVersionsDatabase().execute(
         'DROP TABLE IF EXISTS ${block.getTableName()}'
     );
-    Block.setHighestID( await getMaxID() );
+    Block.setHighestID( (await getMaxID())! );
 
     // debugging
     try {

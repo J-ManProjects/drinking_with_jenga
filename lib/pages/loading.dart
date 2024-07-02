@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:drinking_with_jenga/services/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:drinking_with_jenga/services/themes.dart';
@@ -13,12 +15,12 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  DatabaseHelper database;
-  List<Map> versionsList;
+  late DatabaseHelper database;
+  late List<Map> versionsList;
   int loadingCount = 0;
   bool hasBuilt = false;
-  String text;
-  Map arguments;
+  late String text;
+  Map? arguments;
 
 
   @override
@@ -42,14 +44,14 @@ class _LoadingState extends State<Loading> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SpinKitWanderingCubes(
-                color: Themes.getTheme().accentColor,
+                color: Themes.getTheme().colorScheme.secondary,
                 size: 50,
               ),
               Padding(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 child: Text(
                   text,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                   ),
                 ),
@@ -66,7 +68,7 @@ class _LoadingState extends State<Loading> {
   void init(BuildContext context) {
 
     // Loads data if currently data.
-    arguments = ModalRoute.of(context).settings.arguments;
+    arguments = ModalRoute.of(context)?.settings.arguments as Map?;
 
     // debugging
     print('(loading.dart) Loading:');
@@ -104,12 +106,12 @@ class _LoadingState extends State<Loading> {
     print('(loading.dart) Loading configuration...');
 
     if (prefs.containsKey('darkMode')) {
-      Themes.isDarkMode = prefs.getBool('darkMode');
+      Themes.isDarkMode = prefs.getBool('darkMode')!;
       print('(loading.dart) >> darkMode = ${Themes.isDarkMode}');
     }
 
     if (prefs.containsKey('showItemCount')) {
-      Themes.showItemCount = prefs.getBool('showItemCount');
+      Themes.showItemCount = prefs.getBool('showItemCount')!;
       print('(loading.dart) >> showItemCount = ${Themes.showItemCount}');
     }
 
@@ -134,7 +136,7 @@ class _LoadingState extends State<Loading> {
 
   // Load the versions data from the database.
   void loadVersionsData(BuildContext context) async {
-    Block block = arguments['block'];
+    Block block = arguments?['block'];
     versionsList = await DatabaseHelper.getVersionsList(block);
 
     // debugging

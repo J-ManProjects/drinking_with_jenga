@@ -9,17 +9,16 @@ class Versions extends StatefulWidget {
 }
 
 class _VersionsState extends State<Versions> {
-  Block block;
-  Map arguments;
-  List<Map> versionsList;
-
+  late Block block;
+  Map? arguments;
+  late List<Map> versionsList;
 
   @override
   Widget build(BuildContext context) {
     if (arguments == null) {
-      arguments = ModalRoute.of(context).settings.arguments;
-      versionsList = arguments['versionsList'];
-      block = arguments['block'];
+      arguments = ModalRoute.of(context)?.settings.arguments as Map?;
+      versionsList = arguments?['versionsList'];
+      block = arguments?['block'];
     }
 
     return Theme(
@@ -31,15 +30,13 @@ class _VersionsState extends State<Versions> {
     );
   }
 
-
   // The app bar.
-  Widget _appBar() {
+  PreferredSizeWidget _appBar() {
     return AppBar(
       centerTitle: true,
-      title: Text('Restore version'),
+      title: const Text('Restore version'),
     );
   }
-
 
   // The main body.
   Widget _mainBody(BuildContext context) {
@@ -48,13 +45,15 @@ class _VersionsState extends State<Versions> {
       children: <Widget>[
         _heading('Current version'),
         _currentVersion(),
-        _heading('Previous version' + (versionsList.length > 2 ? 's' : '')),
-        Divider(height: 2, thickness: 2, color: Themes.getTheme().accentColor),
+        _heading('Previous version${versionsList.length > 2 ? 's' : ''}'),
+        Divider(
+            height: 2,
+            thickness: 2,
+            color: Themes.getTheme().colorScheme.secondary),
         _previousVersions(context),
       ],
     );
   }
-
 
   // The appropriate heading.
   Widget _heading(String text) {
@@ -62,7 +61,7 @@ class _VersionsState extends State<Versions> {
       padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 4),
       child: Text(
         '$text:',
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
@@ -70,43 +69,43 @@ class _VersionsState extends State<Versions> {
     );
   }
 
-
   // Creates the ListTile used for each versions.
-  Widget _listTile(Map version, {int index = -1, BuildContext context, bool hasOnTap = false}) {
+  Widget _listTile(Map version,
+      {int index = -1, BuildContext? context, bool hasOnTap = false}) {
     return Card(
-      shape: ContinuousRectangleBorder(),
-      margin: EdgeInsets.symmetric(vertical: 1),
+      shape: const ContinuousRectangleBorder(),
+      margin: const EdgeInsets.symmetric(vertical: 1),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         title: Text(version['label']),
         subtitle: Text(version['instructions']),
         trailing: Text(
           'v${version['version']}',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
-        onTap: hasOnTap ? () {
-          onTapPopup(context, index);
-        } : null,
+        onTap: hasOnTap
+            ? () {
+                onTapPopup(context, index);
+              }
+            : null,
       ),
     );
   }
 
-
   // Creates the ListTile of the current version.
   Widget _currentVersion() {
-    return _listTile( block.versionMap() );
+    return _listTile(block.versionMap());
   }
-
 
   // Creates the list of all previous versions.
   Widget _previousVersions(BuildContext context) {
 
     // List of ListTile widgets.
-    List<Widget> list = List<Widget>();
-    for (int index = versionsList.length-1; index >= 0; index--) {
+    List<Widget> list = <Widget>[];
+    for (int index = versionsList.length - 1; index >= 0; index--) {
       list.add(_listTile(
         versionsList[index],
         index: index,
@@ -123,22 +122,22 @@ class _VersionsState extends State<Versions> {
     );
   }
 
-
   // Implements the functionality for the specified version.
-  void onTapPopup(BuildContext context, int index) {
+  void onTapPopup(BuildContext? context, int index) {
     showDialog(
-      context: context,
+      context: context!,
       builder: (BuildContext context) {
         return Theme(
           data: Themes.getTheme(),
           child: AlertDialog(
-            titlePadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-            contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+            titlePadding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             title: Text('Version ${versionsList[index]['version']} selected'),
-            content: Text('Are you sure that you want to replace the current version with the selected one?'),
+            content: const Text(
+                'Are you sure that you want to replace the current version with the selected one?'),
             actions: <Widget>[
-              FlatButton(
-                child: Text('Yes'),
+              TextButton(
+                child: const Text('Yes'),
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context, {
@@ -147,8 +146,8 @@ class _VersionsState extends State<Versions> {
                   });
                 },
               ),
-              FlatButton(
-                child: Text('No'),
+              TextButton(
+                child: const Text('No'),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -156,9 +155,7 @@ class _VersionsState extends State<Versions> {
             ],
           ),
         );
-      }
+      },
     );
   }
-
-
 } // End of class definition.

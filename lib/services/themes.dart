@@ -8,9 +8,8 @@ class Themes {
 
   // Light theme
   static final ThemeData _themeLight = ThemeData.light().copyWith(
-    backgroundColor: Colors.blueGrey[50],
     scaffoldBackgroundColor: Colors.blueGrey[50],
-    inputDecorationTheme: InputDecorationTheme(
+    inputDecorationTheme: const InputDecorationTheme(
       fillColor: Colors.white,
     ),
   );
@@ -19,14 +18,17 @@ class Themes {
   static final ThemeData _themeDark = ThemeData.dark().copyWith(
     snackBarTheme: SnackBarThemeData(
       backgroundColor: Colors.grey[900],
-      contentTextStyle: TextStyle(
+      contentTextStyle: const TextStyle(
         color: Colors.white,
       ),
     ),
-    accentColor: Colors.blue,
-    toggleableActiveColor: Colors.blue,
-    textSelectionColor: Colors.blue,
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
+    colorScheme: ColorScheme.fromSwatch().copyWith(
+      secondary: Colors.blue,
+    ),
+    textSelectionTheme: const TextSelectionThemeData(
+      selectionColor: Colors.blue,
+    ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Colors.blue,
       foregroundColor: Colors.white,
     ),
